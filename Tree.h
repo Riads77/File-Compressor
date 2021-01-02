@@ -33,6 +33,6 @@ typedef struct node{
 	Node *allocateNode(Binary_color Color, Data *data);
 	Data *allocateData(int x, int y, int width , int height);
 	void subdivise_nodes(Tree root);
-	void browse_tree(Tree root, MLV_Image *image);
+
 
 #endif
