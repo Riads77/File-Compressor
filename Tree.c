@@ -27,9 +27,9 @@ void subdivise_nodes(Tree root){
 	int width = root->coord->width_x/2;
 	int height = root->coord->height_y/2;
 	Data *data_NO = allocateData(root->coord->pos_image_x,root->coord->pos_image_y,width,height);
-	Data *data_SO = allocateData(root->coord->pos_image_x,height/2,width,height);
-	Data *data_NE = allocateData(width/2,root->coord->pos_image_y,width,height);
-	Data *data_SE = allocateData(width/2,height/2,width,height);
+	Data *data_SO = allocateData(root->coord->pos_image_x,height,width,height);
+	Data *data_NE = allocateData(width,root->coord->pos_image_y,width,height);
+	Data *data_SE = allocateData(width,height,width,height);
 
 	Node *node1 = allocateNode(0,data_NO);
 	Node *node2 = allocateNode(0,data_NE);
@@ -51,10 +51,3 @@ void subdivise_nodes(Tree root){
 
 }
 
-void browse_tree(Tree root, MLV_Image *image){
-	//display_node(root->NO,image);
-	//display_node(root->NE,image);
-	display_node(root->SO,image);
-	//display_node(root->SE,image);
-
-}
