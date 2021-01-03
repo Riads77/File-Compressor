@@ -23,31 +23,35 @@ Node *allocateNode(Binary_color Color, Data *data){
     return tmp;
 }
 
-void subdivise_nodes(Tree root){
-	int width = root->coord->width_x/2;
-	int height = root->coord->height_y/2;
-	Data *data_NO = allocateData(root->coord->pos_image_x,root->coord->pos_image_y,width,height);
-	Data *data_SO = allocateData(root->coord->pos_image_x,height,width,height);
-	Data *data_NE = allocateData(width,root->coord->pos_image_y,width,height);
-	Data *data_SE = allocateData(width,height,width,height);
+void subdivise_nodes(Tree root,int level){
+        int width = root->coord->width_x/2;
+        int height = root->coord->height_y/2;
 
-	Node *node1 = allocateNode(0,data_NO);
-	Node *node2 = allocateNode(0,data_NE);
-	Node *node3 = allocateNode(0,data_SO);
-	Node *node4 = allocateNode(0,data_SE);
+        if (level != 0){
+	        Data *data_NO = allocateData(root->coord->pos_image_x,root->coord->pos_image_y,width,height);
+	        Data *data_SO = allocateData(root->coord->pos_image_x,root->coord->pos_image_y + height,width,height);
+		    Data *data_NE = allocateData(root->coord->pos_image_x + width,root->coord->pos_image_y,width,height);
+		    Data *data_SE = allocateData(root->coord->pos_image_x + width,root->coord->pos_image_y + height,width,height);
 
-	root->NO = node1;
-	root->NE = node2;
-	root->SO = node3;
-	root->SE = node4;
+	        Node *node1 = allocateNode(0,data_NO);
+	        Node *node2 = allocateNode(0,data_NE);
+	        Node *node3 = allocateNode(0,data_SO);
+	        Node *node4 = allocateNode(0,data_SE);
 
-	printf("[%d,%d]\n",data_NO->pos_image_x,data_NO->pos_image_y);
-	
-	printf("[%d,%d]\n",data_NE->pos_image_x,data_NE->pos_image_y);
+	        root->NO = node1;
+	        root->NE = node2;
+	        root->SO = node3;
+	        root->SE = node4;
 
-	printf("[%d,%d]\n",data_SO->pos_image_x,data_SO->pos_image_y);
+	    	printf("NO : [%d,%d]\n",data_NO->pos_image_x,data_NO->pos_image_y);
+	        printf("NE : [%d,%d]\n",data_NE->pos_image_x,data_NE->pos_image_y);
+	        printf("SO : [%d,%d]\n",data_SO->pos_image_x,data_SO->pos_image_y);
+	        printf("SE : [%d,%d]\n",data_SE->pos_image_x,data_SE->pos_image_y);
+	        printf("********************\n");
 
-	printf("[%d,%d]\n",data_SE->pos_image_x,data_SE->pos_image_y);
-
+            subdivise_nodes(root->NO,level-1);
+            subdivise_nodes(root->NE,level-1);
+            subdivise_nodes(root->SO,level-1);
+            subdivise_nodes(root->SE,level-1);
+        }
 }
-
