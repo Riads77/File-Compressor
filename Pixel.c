@@ -29,17 +29,8 @@ MLV_Color average_color_partial_image(MLV_Image* image, int x, int y, int nb_lin
     alpha /= (nb_lines * nb_columns);
 
     return MLV_rgba(red,green,blue,alpha);
-  /*  color.R = red;
-    color->G = green;
-    color->B = blue;
-    color->A = alpha;*/
 }
 
-void average_color_image(MLV_Image* image){
-   // assert(color != NULL && image != NULL);
-    //average_color_partial_image(color, image, 0, 0, NB_LINES, NB_COLUMNS);
-    average_color_partial_image(image, 0, 0, 50, 50);
-}
 
 void set_average_color_image(MLV_Color color, MLV_Image* image, int x, int y, int nb_lines, int nb_columns){
     int i,j;
@@ -55,6 +46,25 @@ void set_average_color_image(MLV_Color color, MLV_Image* image, int x, int y, in
         }
     }
 }
+
+int isMonochrome(MLV_Image* image, int x, int y, int taille){
+    /*
+        Cette fonction nous aide a savoir si une partie d'image est monochrome ou pas.
+        Elle renvoie la couleur de l'image si elle est monochrome, sinon elle renvoie -1.
+    */
+    int i, j, couleurHG, couleur;
+    MLV_get_pixel_on_image(image, x, y, &couleurHG, NULL, NULL, NULL);
+    for (i=x; i<x+taille; i++){
+        for (j=y; j<y+taille; j++){
+            MLV_get_pixel_on_image(image, i, j, &couleur, NULL, NULL, NULL);
+            if (couleurHG != couleur)
+                return 0;
+        }
+    }
+    return 1;
+}
+
+
 /*
 int distance_pixels(MLV_Color *color1, MLV_Color *color2){
     assert(color1 != NULL && color2 != NULL);

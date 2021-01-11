@@ -1,27 +1,27 @@
-#include <stdio.h>
 #include "graphique.h"
 #include "Pixel.h"
 #include "Tree.h"
 
+
+
 int main(int argc, char const *argv[]){
 
 	MLV_Image *image;
+	
+	int exit = 1;
+	int current_lvl = 1;
 	Data *data = allocateData(0, 0, NB_LINES , NB_COLUMNS);
-	Tree root = allocateNode(0,data);
+	Tree root = allocateNode(0,data,0);
 
-	MLV_create_window("puzzle", "puzzle", SIZE+250, SIZE);
+	MLV_create_window("QuadTree", "QuadTree", SIZE+250, SIZE);
     image = load_image();
-    
-    subdivise_nodes(root);
-   // display_node(root,image);
-    display_tree(root, image);
-    //MLV_draw_image(image, root->coord->pos_image_x, root->coord->pos_image_y);
     MLV_draw_image(image,0,0);
+    dessiner_boutons();
     MLV_actualise_window();
-    MLV_wait_seconds(60);
-	MLV_free_image(image);
-	MLV_free_window();
 
+    while(exit != 0){
+    	 exit = gerer_bouton(root,image,8);
+    }
 
     return 0;
 }
