@@ -1,22 +1,5 @@
 #include "graphique.h"
 
-
-
-MLV_Image *load_image(){
-	int width = SIZE;
-	int height = SIZE;
-    int image_width, image_height;
-	MLV_Image *image;
-
-	image = MLV_load_image("monster.jpg");
-	//image = MLV_load_image("chess.png");
-	MLV_resize_image_with_proportions(image, width, height);
-	MLV_get_image_size(image, &image_width, &image_height);
-
-	return image;
-}
-
-
 void display_node(Tree root,MLV_Image *image){
 	MLV_Color color;
 	int pos_x = root->coord->pos_image_x;
@@ -24,11 +7,10 @@ void display_node(Tree root,MLV_Image *image){
 	int width_x = root->coord->width_x;
 	int height_y = root->coord->height_y;
 
-	color = root->color;
+	color =  MLV_rgba(root->color.red,root->color.green,root->color.blue,root->color.alpha);
     set_average_color_image(color, image,pos_x , pos_y, width_x ,height_y);
     MLV_draw_partial_image(image, pos_x, pos_y,width_x,height_y,pos_x,pos_y);
 	MLV_actualise_window();
-	//free(tmp_image);
 
 }
 
@@ -42,26 +24,26 @@ void display_tree(Tree root, MLV_Image *image,int display_level){
 		        display_tree(root->NE,image,display_level);
 				display_tree(root->SO,image,display_level);
 				display_tree(root->SE,image,display_level);
-			   } 
+			   }
 		}
 }
 
 
 
-void dessiner_boutons(){
+void draw_button(){
     int taille_interligne = 5;
     MLV_draw_text_box( X_BOUTON1+400, Y_BOUTON1, 200, 35, "LOAD AN IMAGE", taille_interligne, MLV_COLOR_WHITE, MLV_COLOR_RED, MLV_COLOR_WHITE, MLV_TEXT_LEFT, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
     MLV_draw_text_box( X_BOUTON1+400, Y_BOUTON1+50, 200, 35, "QUADTREE", 10, MLV_COLOR_WHITE, MLV_COLOR_RED, MLV_COLOR_WHITE, MLV_TEXT_LEFT, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
-    MLV_draw_text_box( X_BOUTON1+370, Y_BOUTON1+100, 250, 35, "BINARY BACKUP BLACK&WHITE ", taille_interligne, MLV_COLOR_WHITE, MLV_COLOR_RED, MLV_COLOR_WHITE, MLV_TEXT_LEFT, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
+    MLV_draw_text_box( X_BOUTON1+400, Y_BOUTON1+100, 200, 35, "BINARY BACKUP B&W", taille_interligne, MLV_COLOR_WHITE, MLV_COLOR_RED, MLV_COLOR_WHITE, MLV_TEXT_LEFT, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
     MLV_draw_text_box( X_BOUTON1+400, Y_BOUTON1+150, 200, 35, "BINARY BACKUP RGBA", taille_interligne, MLV_COLOR_WHITE, MLV_COLOR_RED, MLV_COLOR_WHITE, MLV_TEXT_LEFT, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
     MLV_draw_text_box( X_BOUTON1+400, Y_BOUTON1+200, 200, 35, "MINIMIZATION", taille_interligne, MLV_COLOR_WHITE, MLV_COLOR_RED, MLV_COLOR_WHITE, MLV_TEXT_LEFT, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
-    MLV_draw_text_box( X_BOUTON1+400, Y_BOUTON1+250, 200, 35, "MINIMIZED GRAPH BLACK&WHITE", taille_interligne, MLV_COLOR_WHITE, MLV_COLOR_RED, MLV_COLOR_WHITE, MLV_TEXT_LEFT, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
-    MLV_draw_text_box( X_BOUTON1+400, Y_BOUTON1+300, 200, 35, "MINIMIZED GRAPH RGBA", taille_interligne, MLV_COLOR_WHITE, MLV_COLOR_RED, MLV_COLOR_WHITE, MLV_TEXT_LEFT, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
+    MLV_draw_text_box( X_BOUTON1+400, Y_BOUTON1+250, 200, 35, "BACKUP GRAPH B&W", taille_interligne, MLV_COLOR_WHITE, MLV_COLOR_RED, MLV_COLOR_WHITE, MLV_TEXT_LEFT, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
+    MLV_draw_text_box( X_BOUTON1+400, Y_BOUTON1+300, 200, 35, "BACKUP GRAPH RGBA", taille_interligne, MLV_COLOR_WHITE, MLV_COLOR_RED, MLV_COLOR_WHITE, MLV_TEXT_LEFT, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
     MLV_draw_text_box( X_BOUTON1+400, Y_BOUTON1+350, 200, 35, "EXIT", taille_interligne, MLV_COLOR_WHITE, MLV_COLOR_RED, MLV_COLOR_WHITE, MLV_TEXT_LEFT, MLV_HORIZONTAL_CENTER, MLV_VERTICAL_CENTER);
 }
 
 
-int choix_menu(int x, int y){
+int menu_choice(int x, int y){
 	/* Dans cette fonction on renvoie le numero de chaque bouton de coordonne (x, y)*/
     int i = 15, h = 35;
     if ((x >= X_BOUTON1+400) && (x <= X_BOUTON1+400+550) && (y >= Y_BOUTON1) && (y <= Y_BOUTON1+h)){
@@ -91,81 +73,40 @@ int choix_menu(int x, int y){
      if ((x >= X_BOUTON1+400) && (x <= X_BOUTON1+400+900) && (y >= Y_BOUTON1+7*h+7*i) && (y <= Y_BOUTON1+8*h+7*i)){
         return 8; // BOUTON: EXIT
     }
-    
-
 
     return 0;
 }
 
-int gerer_bouton(Tree root,MLV_Image *image,int level_max){
+MLV_Image *loadPicture(){
+	/*
+		Le but de cette methode est de charger une image.
+	*/
+    char* text;
+    MLV_Image* image = NULL;
+
+    MLV_wait_input_box(X_BOUTON1+400, Y_BOUTON1+400, 200, 35, MLV_COLOR_WHITE, MLV_COLOR_BLUE, MLV_COLOR_WHITE, "Fichier: ", &text);
+
+    image = MLV_load_image(text);
+    if (image == NULL){
+     MLV_draw_text( X_BOUTON1+400, Y_BOUTON1+440, "Erreur de saisie.", MLV_COLOR_WHITE);
+     MLV_actualise_window();
+    }
+
+    return image;
+}
+
+int manage_button(){
 	int x1, y1;
-	FILE *fichier = NULL;
 	MLV_wait_mouse(&x1, &y1);
-	int i;
-	int c1 = choix_menu(x1, y1);
-	if (c1 == 1){
-		printf("LOAD AN IMAGE");
-	}
 
-	if (c1 == 2){
-		subdivise_nodes(root,image,level_max);
-		for (i = 0;i<level_max;i++){
-			 MLV_wait_seconds(1);
-    		 display_tree(root, image,i);
-		}
-		printf("QUADTREE");
-	}
+	int choix = menu_choice(x1, y1);
 
-	if (c1 == 3){
-		
-	    fichier = fopen("img/BACKUP_BW.txt","w");
+	if (choix == 8){
+        return 0;
 
-    	if (fichier != NULL){
-    		creerFichier_BW(root,fichier,image);
-    		fclose(fichier);
-    	}else{
-    		perror("img/BACKUP_BW.txt.txt");
-    	}
-		
-		printf("BINARY BACKUP BLACK&WHITE");
-		remove("BACKUP_BW.txt");
-
-	}
-
-	if (c1 == 4){
-		printf("BINARY BACKUP RGBA");
-		   fichier = fopen("img/BACKUP_rgba.txt","w");
-
-    	if (fichier != NULL){
-    		creerFichier(root,fichier,image);
-    		fclose(fichier);
-    	}else{
-    		perror("img/BACKUP_rgba.txt.txt");
-    	}
-
-		
-		
-	}
-
-	if (c1 == 5){
-		printf("MINIMIZATION");
-	}
-
-	if (c1 == 6){
-		printf("MINIMIZED GRAPH BLACK&WHITE");
-	}
-
-	if (c1 == 7){
-		printf("MINIMIZED GRAPH RGBA");
-	}
-
-	if (c1 == 8){
-			MLV_free_image(image);
-			MLV_free_window();
-			return 0;
-		
 	}else{
-		return 1;
+		return choix;
 	}
+
 }
 

@@ -7,10 +7,38 @@
 #define SIZE 512
 #define X_BOUTON1 150
 #define Y_BOUTON1 50
-/*Fonction qui permet de charger une image en 512-512 et de la recadrer*/
-MLV_Image *load_image();
+/*
+        Parametres : La racine ,l'image
+		Retour: void
+		But: Affiche le noeud de l'arbre actuel 
+*/
 void display_node(Tree root,MLV_Image *image);
+
+/*
+	Parametres: La racine , l'image , les levels restant
+	Retour: void
+	But: Fais un parcours préfixe pour afficher tout les noeuds de l'arbre
+*/
 void display_tree(Tree root, MLV_Image *image,int display_level);
-void dessiner_boutons();
-int gerer_bouton(Tree root,MLV_Image *image,int level_max);
+
+/*
+	Parametres: Rien
+	Retour: void
+	But: Dessine tout les boutons sur la fenêtre d'affichage
+*/
+void draw_button();
+/*
+	Parametres: Rien
+	Retour: 0 si l'utilisateur quitte sinon un int
+	But : Permet de gèrer le click de l'utilisateur sur l'interface graphique
+*/
+int manage_button();
+
+/*
+	Parametres : Rien
+		Retour : Une image
+		But: Permet à l'utilisateur de pouvoir choisir l'image à charger
+*/
+
+MLV_Image *loadPicture();
 #endif
