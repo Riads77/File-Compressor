@@ -14,28 +14,54 @@ typedef struct data{
 	int height_y;
 }Data;
 
-
-
-typedef enum binary_color{
-	NODE = 0,
-	WHITE = 10,
-	BLACK = 11
-}Binary_color;
-
 typedef struct node{
 
 	Data *coord;
-	MLV_Color color;
+	Color color;
+	struct node *parent;
 	struct node *NO, *NE, *SE, *SO;
     int level;
 
 }Node, *Tree;
+	/*
+		Parametres : La couleur a associé à un noeud , une variable data qui contient les informations sur l'image (position,taille), le level 
+		Retour : Un noeud 
+		But : Permet d'initialiser les attributs de Node
+	*/
+	Node *allocateNode(Color color, Data *data,int level);
 
-	Node *allocateNode(MLV_Color color, Data *data,int level);
+	/*
+		Parametres : La couleur a associé à un noeud , une variable data qui contient les informations sur l'image (position,taille), le level 
+		Retour : Un noeud 
+		But : Permet d'initialiser les attributs de Node
+	*/
+
 	Data *allocateData(int x, int y, int width , int height);
+	/*
+		Parametres : Un noeud, un pointeur d'image et le niveau
+		Retour : void
+		But: Divise le root en 4 nodes.
+	*/
 	void subdivise_nodes(Tree root,MLV_Image *image,int remaining_level);
-	void creerFichier(Tree root, FILE* fichier,MLV_Image *image);
-	void creerFichier_BW(Tree root,FILE *fichier,MLV_Image *image);
+	/*
+		Parametres : Un noeud
+		Retour : void
+		But: Fusionner les feuilles de la même couleur.
+    */
+	void optimise_tree_leaf(Node *node);
+	/*
+		Parametres : Une couleur et un table d'entier
+		Retour : void
+		But: Convertir un nombre décimal et binaire.
+	*/
+	void Converttobinary(int rgba , int *byte);
+	/*
+		Parametres : Un noeud,un pointeur de fichier et un pointeur d'image
+		Retour : void
+		But: Convertir un quadtree dan un fichier texte.
+	*/
+	void createFile(Tree root, FILE* fichier,MLV_Image *image);	
+	void createFile_BW(Tree root,FILE *fichier,MLV_Image *image);
 
 
 

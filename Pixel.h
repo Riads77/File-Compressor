@@ -24,15 +24,15 @@ Color average_color_partial_image(MLV_Image* image, int x, int y, int nb_lines, 
 /*
 	Parametres : La couleur moyenne , l'image , les coordonnées et la taille 
 	Retour : void
-	But: Permet d'appliquer la couleur moyenne renvoyer par average_color_partial_image sur toute la surface du carré donné en paramètres
+	But: Permet de modifier la couleur du pixel de la zone définit par les paramètres taille et coordonnées
 */
 
 void set_average_color_image(MLV_Color color, MLV_Image* image, int x, int y, int nb_lines, int nb_columns);
 /*
 
 	Parametres : L'image , les coordonnées et la taille
-		Retour :  Elle renvoie la couleur de l'image si elle est monochrome, sinon elle renvoie -1.
-		But: Cette fonction nous aide a savoir si une partie d'image est monochrome ou pas.
+		Retour :  Elle renvoie la couleur de l'image si elle est monochrome, sinon elle renvoie -1
+		But: Cette fonction nous aide a savoir si une partie d'image est monochrome ou pas
 */
 int isMonochrome(MLV_Image* image, int x, int y, int taille);
 #endif

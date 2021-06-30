@@ -6,7 +6,7 @@ void display_node(Tree root,MLV_Image *image){
 	int pos_y = root->coord->pos_image_y;
 	int width_x = root->coord->width_x;
 	int height_y = root->coord->height_y;
-
+    /*On convertit les 4 couleurs rgba en une couleur MLV_Color pour l'affichage*/
 	color =  MLV_rgba(root->color.red,root->color.green,root->color.blue,root->color.alpha);
     set_average_color_image(color, image,pos_x , pos_y, width_x ,height_y);
     MLV_draw_partial_image(image, pos_x, pos_y,width_x,height_y,pos_x,pos_y);
@@ -15,11 +15,11 @@ void display_node(Tree root,MLV_Image *image){
 }
 
 void display_tree(Tree root, MLV_Image *image,int display_level){
-		if (root->level == display_level){
+		if (root->level == display_level){/*Si le level actuel est égal au level à afficher,on affiche le noeud*/
 			 display_node(root,image);
 		}else{
 
-			   if (root->NO != NULL){
+			   if (root->NO != NULL){ /*Sinon on regarde s'il reste des fils en regardant le fils NO. Si oui on continue d'afficher en descendant*/
 		        display_tree(root->NO,image,display_level);
 		        display_tree(root->NE,image,display_level);
 				display_tree(root->SO,image,display_level);
@@ -78,9 +78,6 @@ int menu_choice(int x, int y){
 }
 
 MLV_Image *loadPicture(){
-	/*
-		Le but de cette methode est de charger une image.
-	*/
     char* text;
     MLV_Image* image = NULL;
 

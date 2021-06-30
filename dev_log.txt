@@ -1,0 +1,41 @@
+commit dbca747d150fdf8359ba534cff861585f2e504d2
+Author: Frédéric Si <fsi@etud.u-pem.fr>
+Date:   Sun Jan 17 12:35:59 2021 +0100
+
+    Optimisation de la partie grahphique , ajout du chargement de l'image , modification complete de la fonction pour avoir la moyenne à cause de l'ajout de la structure color pour la sauvegarde. IL reste la sauvegarde binaire à faire et terminer la minimisation
+
+commit d8114d6fc000e1509c16f1fc04edd247df457974
+Author: Frédéric Si <fsi@etud.u-pem.fr>
+Date:   Mon Jan 11 16:00:39 2021 +0100
+
+    Amélioration du Quadtree. Plus de pb de fuite de mémoire du à de gros changement dans Pixel.h (structure).Apparition des boutons (exit + quadtree ok) , la sauvegarde du quadtree en binaire n'est pas encore fonctionel.
+
+commit e2d7202de619dbc78a43bd47bf2ed1f97007f954
+Author: Frédéric Si <fsi@etud.u-pem.fr>
+Date:   Sun Jan 3 20:49:25 2021 +0100
+
+    Changement dans subdivise node , tjr le pb du processus à règler
+
+commit f23e52091c7540c7c2de9f6f6053480deb555135
+Author: Frédéric Si <fsi@etud.u-pem.fr>
+Date:   Sat Jan 2 17:03:24 2021 +0100
+
+    Correction bug affichage , il faut maintenant regarder subdivise node
+
+commit 934099c737d673735801c77e88db5f2d774591ab
+Author: Frédéric Si <fsi@etud.u-pem.fr>
+Date:   Sat Jan 2 16:53:59 2021 +0100
+
+    adapte
+
+commit f2d630882f19811b4307adb81f2f9d49089760e1
+Author: Frédéric Si <fsi@etud.u-pem.fr>
+Date:   Wed Dec 30 16:01:11 2020 +0100
+
+    ajout
+
+commit f9b9af288009d771017324b407b4f4c8c1dd1a72
+Author: Frédéric Si <fsi@etud.u-pem.fr>
+Date:   Wed Dec 30 15:56:05 2020 +0100
+
+    test

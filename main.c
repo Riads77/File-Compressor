@@ -39,7 +39,7 @@ int main(int argc, char const *argv[]){
         data = allocateData(0, 0, NB_LINES , NB_COLUMNS);
         root = allocateNode(color,data,0);
         /*Construction du Quadtree*/
-          subdivise_nodes(root,image,level_max);
+          subdivise_nodes(root,mage,level_max);
             for (i = 0;i<level_max;i++){
                 display_tree(root, image,i);
                 MLV_wait_seconds(1);
@@ -48,13 +48,13 @@ int main(int argc, char const *argv[]){
 
     if (bt == 3){
         printf("BINARY BACKUP BLACK&WHITE\n");
-	    fichier = fopen("img/BACKUP_BW.txt","w");
+	    fichier = fopen("save/BACKUP_BW.qtn","w");
 
     	if (fichier != NULL){
     		createFile_BW(root,fichier,image);
     		fclose(fichier);
     	}else{
-    		perror("img/BACKUP_BW.txt.txt");
+    		perror("save/BACKUP_BW.qtn");
     	}
 
 		remove("BACKUP_BW.txt");
@@ -63,14 +63,14 @@ int main(int argc, char const *argv[]){
 
 	if (bt == 4){
 		printf("BINARY BACKUP RGBA\n");
-		   fichier = fopen("img/BACKUP_rgba.txt","w");
+		   fichier = fopen("save/BACKUP_rgba.qtc","w");
 
     	if (fichier != NULL){
             //subdivise_nodes(root,image,level_max);
     		createFile(root,fichier,image);
     		fclose(fichier);
     	}else{
-    		perror("img/BACKUP_rgba.txt.txt");
+    		perror("save/BACKUP_rgba.qtc");
     	}
 	}
     if (bt == 5){
